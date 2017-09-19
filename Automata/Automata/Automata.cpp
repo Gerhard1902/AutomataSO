@@ -1,4 +1,4 @@
-// Automata.cpp: define el punto de entrada de la aplicaci�n de consola.
+// Automata.cpp: define el punto de entrada de la aplicación de consola.
 //
 
 #include "stdafx.h"
@@ -9,6 +9,7 @@
 
 using namespace std;
 void automataUno();
+void automataDos();
 void automataTres();
 void main()
 {
@@ -22,6 +23,7 @@ void main()
 		automataUno();
 		break;
 	case 2:
+		automataDos();
 		break;
 	case 3:
 		automataTres();
@@ -62,6 +64,51 @@ void automataUno()
 		}
 		else if(estados[contador]=="BLOCKED" && evento=="E")
 			contador-=2;		
+
+		cout << "El estado actual es: " << estados[contador] << "\n";
+
+	}
+	cout << "El estado final es " << estados[contador] << "\n";
+			
+}
+
+void automataDos()
+{
+	string evento, estados[6];
+	int contador = 0;
+	cout << "Introduce ADMIT, DISPATCH, TIMEOUT, EVENTOCCURS, EVENTWAIT, RELEASE, SUSPEND, ACTIVATE para avanzar entre estados \n";
+	cout << "Estos eventos seran representados por letras: \n";
+	cout << "ADMIT = A, DISPATCH = D, TIMEOUT = T, EVENTOCCURS = E, EVENTWAIT = W, RELEASE = R, SUSPEND S & ACTIVATE AC \n";	
+	estados[0]= "NEW", estados[1]= "READY",estados[2]= "RUNNING",estados[3]= "BLOCKED",estados[4]= "SUSPEND",estados[5]= "EXIT";
+	cout << "El estado actual es: " << estados[contador] << "\n";
+	while(estados[contador]!= "EXIT")
+	{
+		cout << "Introduce el evento: ";
+		cin >> evento;
+		if(estados[contador]=="NEW" && evento=="A")		
+			contador++;		
+		else if(estados[contador]=="READY" && evento=="D")
+			contador++;
+		else if(estados[contador]=="RUNNING")
+		{
+			if (evento=="R")
+				contador+=3;			
+			else if(evento=="T")
+				contador--;
+			else if(evento=="W")
+				contador++;
+		}
+		else if(estados[contador]=="BLOCKED")
+		{
+			if (evento=="E")
+				contador-=2;
+			else if (evento=="S")
+				contador++;
+		}
+		else if (estados[contador]=="SUSPEND" &&evento=="AC")
+			contador-=3;
+		else
+			cout<<"Símbolo den entrada Incorrecto"<<endl;
 
 		cout << "El estado actual es: " << estados[contador] << "\n";
 
